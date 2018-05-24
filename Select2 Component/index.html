@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
+  <link rel="icon" href="https://vuejs.org/images/icons/apple-icon-57x57.png" type="image/png">
   <title>Vue Select2 Component</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css"
@@ -13,6 +14,15 @@
   <style>
     .starter-template {
       padding: 3rem 1.5rem;
+    }
+
+    select {
+      min-width: 300px;
+    }
+
+    small {
+      font-size: 18px;
+      color: #929292;
     }
   </style>
 </head>
@@ -68,18 +78,44 @@
 
     <div class="starter-template">
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 mb-4">
           <h1>Select2
             <small>using jQuery</small>
           </h1>
         </div>
-        <div class="col-md-12">
-          &nbsp;
-        </div>
-        <div class="col-md-4">
-          <select class="select2-example-1 form-control" ref="example1">
+        <div class="col-md-12 mb-4">
+          <select class="select2-example-1" ref="example1">
             <option v-for="option in options" value="option.id">{{option.text}}</option>
           </select>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-md-12 mb-4">
+          <h1>Select2
+            <small>using vue wrapper component</small>
+          </h1>
+        </div>
+        <div class="col-md-4 mb-4">
+          <p>Selected: {{ selected }}</p>
+          <select2 :options="options" v-model="selected">
+            <option disabled value="0">Select one</option>
+          </select2>
+
+          <script type="text/x-template" id="select2-template">
+              <select>
+                <slot></slot>
+              </select>
+          </script>
+
+        </div>
+        <div class="col-md-4">
+          <button @click="getValue" class="btn btn-info">
+            Get Value
+          </button>
+          <button @click="setValue" class="btn btn-info">
+            Set Value
+          </button>
         </div>
       </div>
       <hr>
