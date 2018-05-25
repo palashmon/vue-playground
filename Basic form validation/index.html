@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="../src/vue-2.5.16/apple-icon-57x57.png" type="image/png">
+  <title>Basic Form Validation</title>
+  <link rel="stylesheet" href="../src/bootstrap-4.1.1/css/bootstrap.min.css"> />
+  <style>
+    .starter-template {
+      padding: 3rem 1.5rem
+    }
+
+    input {
+      min-width: 300px
+    }
+
+    small {
+      font-size: 18px;
+      color: #929292
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="collapse bg-dark" id="navbarHeader">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-8 col-md-7 py-4">
+            <h4 class="text-white">About</h4>
+            <p class="text-muted">Add some information about the album below, the author, or any other background context.
+              Make it a few sentences long so folks can pick up some informative tidbits. Then,
+              link them off to some social networking sites or contact information.</p>
+          </div>
+          <div class="col-sm-4 offset-md-1 py-4">
+            <h4 class="text-white">Contact</h4>
+            <ul class="list-unstyled">
+              <li>
+                <a href="#" class="text-white">Follow on Twitter</a>
+              </li>
+              <li>
+                <a href="#" class="text-white">Like on Facebook</a>
+              </li>
+              <li>
+                <a href="#" class="text-white">Email me</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="navbar navbar-dark bg-dark box-shadow">
+      <div class="container d-flex justify-content-between">
+        <a href="#" class="navbar-brand d-flex align-items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+            <circle cx="12" cy="13" r="4"></circle>
+          </svg>
+          <strong>Vue Form Validation</strong>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader"
+          aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container" id="app">
+
+    <div class="starter-template">
+      <div class="row">
+        <div class="col-md-12 mb-1">
+          <h1>Basic Form Validation <small>using vuelidate</small>
+          </h1>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-md-12 mb-4">
+            <form class="needs-validation">
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="inputEmail4">Email</label>
+                  <input type="email" class="form-control" v-model.trim="form.email" placeholder="Email"
+                   :class="status($v.form.email)">
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="inputPassword4">Password</label>
+                  <input type="password" class="form-control" v-model.trim="form.password" placeholder="Password"
+                   :class="status($v.form.password)">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputAddress">Address</label>
+                <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-5">
+                  <label for="inputCity">City</label>
+                  <input type="text" class="form-control" id="inputCity">
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="inputState">State</label>
+                  <select id="inputState" class="form-control" v-model.trim="form.state" :class="selectStatus($v.form.state)">
+                    <option selected value="">Choose...</option>
+                    <option value="1">CA</option>
+                    <option value="2">LA</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-2">
+                  <label for="inputZip">Zip</label>
+                  <input type="text" class="form-control" id="inputZip">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="exampleFormControlTextarea1">Comments</label>
+                <textarea class="form-control" id="inputComments" rows="3" v-model.trim="form.comment" :class="status($v.form.comment)"></textarea>
+              </div>
+
+
+              <button type="button" class="btn btn-info" @click="validate">Sign in</button>
+            </form>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col">
+          <pre>{{message}}</pre>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- /.container -->
+
+  <!-- Bootstrap core JavaScript
+      ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="../src/jquery-3.3.1/jquery.slim.min.js"></script>
+  <script src="../src/bootstrap-4.1.1/js/bootstrap.min.js"></script>
+
+  <!-- development version, includes helpful console warnings -->
+  <script src="../src/vue-2.5.16/vue.js"></script>
+  <script src="../src/vuelidate/vuelidate.min.js"></script>
+  <script src="../src/vuelidate/validators.min.js"></script>
+  <script src="index.js"></script>
+</body>
+
+</html>
