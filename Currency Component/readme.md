@@ -2,7 +2,7 @@
 
 This is a formatted currency input component using Vue.
 
-## Format
+## Formats
 
 ### Value displayed
 
