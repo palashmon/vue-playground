@@ -10,18 +10,13 @@
   <title>Vue Currency Component</title>
   <link rel="stylesheet" href="../src/bootstrap-4.1.1/css/bootstrap.min.css"> />
   <style>
-    .starter-template {
-      padding: 3rem 1.5rem;
-    }
-
-    input {
-      min-width: 300px;
-    }
-
-    small {
-      font-size: 18px;
-      color: #929292;
-    }
+    .starter-template{padding:3rem 1.5rem}
+    input{min-width:300px}
+    small{font-size:18px;color:#929292}
+    .error{border-color:#dc3545;}
+    .error:focus{outline-color:#F99}
+    .valid{border-color:#5A5;}
+    .valid:focus{outline-color:#8E8}
   </style>
 </head>
 
@@ -100,7 +95,8 @@
           <script type="text/x-template" id="currency-template">
               <div>
                   <input type="text" v-model="displayValue" @blur="isInputActive = false"
-                    @focus="isInputActive = true" class="form-control-lg" />
+                    @focus="isInputActive = true" class="form__input form-control-lg" :class="status(v)"/>
+                  <div style="color:#dc3545" v-if="!!v && v.$invalid && v.$error">Name is required</div>
               </div>
           </script>
         </div>
@@ -122,9 +118,9 @@
         </div>
         <div class="col-md-4 mb-4">
           <p>
-            Price (in parent component): {{ price3 }}
+            Price (in parent component): {{ price.name }}
           </p>
-          <currency-input v-model="price3" name="price"></currency-input>
+          <currency-input v-model="price.name" :v="$v.price.name" name="price"></currency-input>
         </div>
         <div class="col-md-4">
           <button @click="validate" class="btn btn-info">
@@ -135,7 +131,9 @@
 
       <hr>
       <div class="row">
-        <div class="col">{{message}}</div>
+        <div class="col">
+          <pre>{{$v.price.name}}</pre>
+        </div>
       </div>
 
 

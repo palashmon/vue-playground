@@ -1,26 +1,46 @@
 Vue.config.productionTip = false;
 Vue.config.devtools = false;
+var validator = window.validators;
 Vue.use(window.vuelidate.default);
+var validationMixin = window.vuelidate.validationMixin;
 
 // Wrapper Component Example
 // Get formated currency
 Vue.component('currency-input', {
-  props: ['value'],
+  props: {
+    value: {
+      type: [String, Number],
+      required: true
+    },
+    v: {
+      type: Object
+    }
+  },
   template: '#currency-template',
   data: function() {
     return {
-      isInputActive: false
+      isInputActive: false,
+      copiedValue: this.value
     };
+  },
+  watch: {
+    value: function(value) {
+      this.copiedValue = value;
+    }
   },
   computed: {
     displayValue: {
       get: function() {
         if (this.isInputActive) {
           // Cursor is inside the input field. un-format display value for user
-          return this.value.toString();
+          return this.copiedValue == 0 ? '' : this.copiedValue.toString();
         } else {
+          if (typeof this.copiedValue === 'string') {
+            this.copiedValue = this.isNumeric(this.copiedValue) ? parseFloat(this.copiedValue) : 0;
+          }
           // User is not modifying now. Format display value for user interface
-          return '$ ' + this.value.toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, '$1,');
+          if (this.copiedValue == 0) return '';
+          return '$ ' + this.copiedValue.toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, '$1,');
         }
       },
       set: function(modifiedValue) {
@@ -28,12 +48,25 @@ Vue.component('currency-input', {
         let newValue = parseFloat(modifiedValue.replace(/[^\d\.]/g, ''));
         // Ensure that it is not NaN
         if (isNaN(newValue)) {
-          newValue = 0;
+          newValue = '';
         }
-        // Note: we cannot set this.value as it is a "prop". It needs to be passed to parent component
+        // Note: we cannot set this.copiedValue as it is a "prop". It needs to be passed to parent component
         // $emit the event so that parent component gets it
         this.$emit('input', newValue);
+        if (!!this.v) this.v.$touch();
       }
+    }
+  },
+  methods: {
+    isNumeric: function(n) {
+      return !isNaN(parseFloat(n)) && isFinite(n);
+    },
+    status(validation) {
+      if (!validation) return;
+      return {
+        error: validation.$invalid && validation.$error,
+        valid: validation.$dirty && !validation.$invalid
+      };
     }
   }
 });
@@ -46,7 +79,12 @@ var app = new Vue({
     message: 'You loaded this page on ' + new Date().toLocaleString(),
     price1: 4321.66,
     price2: 1234.55,
-    price3: 22
+    price3: 22,
+    price: {
+      name: '',
+      ref: ''
+    },
+    submitStatus: null
   },
   methods: {
     getValue: function() {
@@ -61,6 +99,23 @@ var app = new Vue({
       return Math.floor(Math.random() * (max - min + 1)) + min;
     },
 
-    validate: function() {}
+    validate: function() {
+      this.isButtonClicked = true;
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        this.submitStatus = 'ERROR';
+      } else {
+        // do your submit logic here
+        this.submitStatus = 'PENDING';
+        setTimeout(() => {
+          this.submitStatus = 'OK';
+        }, 500);
+      }
+    }
+  },
+  validations: {
+    price: {
+      name: { required: validator.required }
+    }
   }
 });
