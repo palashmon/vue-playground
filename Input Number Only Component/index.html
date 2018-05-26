@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="../src/vue-2.5.16/apple-icon-57x57.png" type="image/png">
+  <title>Vue Number Only Component</title>
+  <link rel="stylesheet" href="../src/bootstrap-4.1.1/css/bootstrap.min.css">
+  <style>
+    .starter-template {
+      padding: 3rem 1.5rem;
+    }
+
+    select {
+      min-width: 300px;
+    }
+
+    small {
+      font-size: 18px;
+      color: #929292;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="collapse bg-dark" id="navbarHeader">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-8 col-md-7 py-4">
+            <h4 class="text-white">About</h4>
+            <p class="text-muted">Add some information about the album below, the author, or any other background context.
+              Make it a few sentences long so folks can pick up some informative tidbits. Then,
+              link them off to some social networking sites or contact information.</p>
+          </div>
+          <div class="col-sm-4 offset-md-1 py-4">
+            <h4 class="text-white">Contact</h4>
+            <ul class="list-unstyled">
+              <li>
+                <a href="#" class="text-white">Follow on Twitter</a>
+              </li>
+              <li>
+                <a href="#" class="text-white">Like on Facebook</a>
+              </li>
+              <li>
+                <a href="#" class="text-white">Email me</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="navbar navbar-dark bg-dark box-shadow">
+      <div class="container d-flex justify-content-between">
+        <a href="#" class="navbar-brand d-flex align-items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+            <circle cx="12" cy="13" r="4"></circle>
+          </svg>
+          <strong>Vue Number Only Component</strong>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader"
+          aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container" id="app">
+
+    <div class="starter-template">
+      <div class="row">
+        <div class="col-md-12 mb-4">
+          <h1>Input Number
+            <small>using input type="number"</small>
+          </h1>
+        </div>
+        <div class="col-md-4 mb-4">
+          <input type="number" min="1" max="100" class="form-control" />
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-md-12 mb-4">
+          <h1>Input Number Only
+            <small>using vue wrapper component</small>
+          </h1>
+        </div>
+        <div class="col-md-4 mb-4">
+          <input-number v-model="count"></input-number>
+        </div>
+        <div class="col-md-4">
+          <div class="btn-group">
+            <button type="button" class="btn btn-info" @click="setValue">Set Value</button>
+            <button type="button" class="btn btn-info" @click="getValue">Get Value</button>
+            <button type="button" class="btn btn-info" @click="count = ''">Clear</button>
+          </div>
+        </div>
+        <div class="col-md-4">Entered value: {{count}}</div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-md-12 mb-4">
+          <h1>Input Number Only
+            <small>with validation</small>
+          </h1>
+        </div>
+        <div class="col-md-4 mb-4">
+          <input-number v-model="count2" :v="$v.count2" name="count2"></input-number>
+        </div>
+        <div class="col-md-4">
+          <button type="button" class="btn btn-info" @click="validate">Validate</button>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col">{{message}}</div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <pre>{{$v.count2}}</pre>
+        </div>
+      </div>
+
+      <script type="text/x-template" id="input-number-template">
+          <div>
+              <input type="text" class="form-control" v-model="displayValue"
+                @blur="isInputActive = false"
+                @focus="isInputActive = true" :class="status(v)"/>
+              <div style="color:#dc3545" v-if="!!v && v.$invalid && v.$error">This field is required</div>
+              <div style="color:#28a745" v-if="!!v && v.$dirty && !v.$invalid">Looks good!</div>
+          </div>
+      </script>
+    </div>
+
+  </div>
+  <!-- /.container -->
+
+  <!-- Bootstrap core JavaScript
+      ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="../src/jquery-3.3.1/jquery.slim.min.js"></script>
+  <script src="../src/popper.js-1.14.3/umd/popper.min.js"></script>
+  <script src="../src/bootstrap-4.1.1/js/bootstrap.min.js"></script>
+
+  <!-- development version, includes helpful console warnings -->
+  <script src="../src/vue-2.5.16/vue.js"></script>
+  <script src="../src/vuelidate/vuelidate.min.js"></script>
+  <script src="../src/vuelidate/validators.min.js"></script>
+  <script src="index.js"></script>
+</body>
+
+</html>
